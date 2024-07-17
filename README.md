@@ -2,7 +2,8 @@
 [Parcel Bustle](#) is a cutting-edge courier service app designed to streamline your courier and logistic needs. With this app, you can manage parcel deliveries and track shipments in real-time with no hassle.
 
 <p align="center">
-  <img src="assets/images/readme/logo.webp" width="400" margin="auto">
+  <img src="assets/images/readme/logo.webp#gh-light-mode-only" width="400" margin="auto">
+  <img src="assets/images/readme/logo-dark.webp#gh-dark-mode-only" width="400" margin="auto">
 </p>
 
 This app is targeted for last-mile delivery services providers, specialising in transporting good from a distribution center to the end customer's doorstep. It allows workers to save parcel details into the system either using an Optical Character Recognition (OCR) tool, or by manual input. Customers will be contactable via WhatsApp with the click of a button, while the host can manage the parcels and workers' permission through the frontend interface.
