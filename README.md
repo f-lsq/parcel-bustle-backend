@@ -62,3 +62,5 @@ Base URL for workers `http://{domain-name}.com/api/workers`.
 | Host         | [Yu Shan](https://en.wikipedia.org/wiki/Li_Shang)      | shanyu@parcelbustle.com    | *Not provided* |
 
 ## References
+## References
+1. [Marcus, K. (2024 January 18). Go ORMs in 2024.](https://encore.dev/resources/go-orms)
