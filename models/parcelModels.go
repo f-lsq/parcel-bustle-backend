@@ -18,3 +18,13 @@ type Parcel struct {
 }
 
 // 'CreatedAt' and 'UpdatedAt' automatically managed by GORM
+
+type ParcelReqBody struct {
+	Status          string `json:"status"`
+	DeliveryAddress string `json:"delivery_address"`
+	ReturnAddress   string `json:"return_address"`
+	DeliverBy       string `json:"deliver_by"`
+	DeliveredImage  string `json:"delivered_image"`
+	PaymentType     string `json:"payment_type"`
+	PaymentMade     bool   `json:"payment_made"`
+}

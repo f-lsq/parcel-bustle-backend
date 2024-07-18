@@ -1,49 +1,29 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
-	"time"
 
-	"github.com/f-lsq/parcel-bustle-backend/config"
 	"github.com/f-lsq/parcel-bustle-backend/models"
+	"github.com/f-lsq/parcel-bustle-backend/services"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func CreateParcel(c *gin.Context) {
-	var body struct {
-		Status          string `json:"status"`
-		DeliveryAddress string `json:"delivery_address"`
-		ReturnAddress   string `json:"return_address"`
-		DeliverBy       string `json:"deliver_by"`
-		DeliveredImage  string `json:"delivered_image"`
-		PaymentType     string `json:"payment_type"`
-		PaymentMade     bool   `json:"payment_made"`
+	var body models.ParcelReqBody
+
+	if err := c.BindJSON(&body); err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
 
-	c.BindJSON(&body)
-
-	var DeliverByDate time.Time
-	if body.DeliverBy == "" {
-		DeliverByDate = time.Now().AddDate(0, 0, 7)
-	} else {
-		DeliverByDate, _ = time.Parse("2006-01-02", body.DeliverBy)
-	}
-
-	parcel := models.Parcel{
-		Status:          body.Status,
-		DeliveryAddress: body.DeliveryAddress,
-		ReturnAddress:   body.ReturnAddress,
-		DeliverBy:       DeliverByDate,
-		DeliveredImage:  body.DeliveredImage,
-		PaymentType:     body.PaymentType,
-		PaymentMade:     body.PaymentMade,
-	}
-
-	fmt.Println(parcel)
-	result := config.DB.Create(&parcel)
-	if result.Error != nil {
+	parcel, err := services.CreateParcel(body)
+	if err != nil {
 		c.JSON(500, gin.H{
-			"error": result.Error,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -52,5 +32,106 @@ func CreateParcel(c *gin.Context) {
 		"message": "Parcel created successfully!",
 		"data":    parcel,
 	})
+}
 
+func GetParcels(c *gin.Context) {
+	parcels, err := services.GetAllParcels()
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "All parcels retrieved successfully!",
+		"data":    parcels,
+	})
+}
+
+func GetParcelByID(c *gin.Context) {
+	id := c.Param("id")
+	parcel, err := services.GetParcelByID(id)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(404, gin.H{
+			"error": fmt.Sprintf("No parcel of ID %s was found", id),
+		})
+		return
+	}
+
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "Parcel retrieved successfully!",
+		"data":    parcel,
+	})
+}
+
+func UpdateParcel(c *gin.Context) {
+	var body models.ParcelReqBody
+
+	if err := c.BindJSON(&body); err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	id := c.Param("id")
+	parcel, err := services.UpdateParcelByID(id, body)
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(404, gin.H{
+			"error": fmt.Sprintf("No parcel of ID %s was found", id),
+		})
+		return
+	}
+
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "Parcel updated successfully!",
+		"data":    parcel,
+	})
+}
+
+func DeleteParcel(c *gin.Context) {
+	id := c.Param("id")
+	parcel, err := services.GetParcelByID(id)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(404, gin.H{
+			"error": fmt.Sprintf("No parcel of ID %s was found", id),
+		})
+		return
+	}
+
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	errDel := services.DeleteParcel(id)
+	if errDel != nil {
+		c.JSON(500, gin.H{
+			"error": errDel.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "Parcel deleted successfully!",
+		"data":    parcel,
+	})
 }

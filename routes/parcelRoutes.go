@@ -9,5 +9,9 @@ func Parcel(route *gin.Engine) {
 	parcels := route.Group("/api/parcels")
 	{
 		parcels.POST("/", controllers.CreateParcel)
+		parcels.GET("/", controllers.GetParcels)
+		parcels.GET("/:id", controllers.GetParcelByID)
+		parcels.PUT("/:id", controllers.UpdateParcel)
+		parcels.DELETE("/:id", controllers.DeleteParcel)
 	}
 }
