@@ -20,10 +20,12 @@ This app is targeted for last-mile delivery services providers, specialising in 
 
 ## System Design
 ### Entity Relationship Diagram
-![Entity Relationship Diagram](assets/images/readme/erd.png)
+![Entity Relationship Diagram](assets/images/readme/erd.png#gh-light-mode-only)
+![Entity Relationship Diagram](assets/images/readme/erd-dark.png#gh-dark-mode-only)
 ### SQL Schema Diagram
 Given the relationship between entities, a relational DB (in this case MySQL) would be more ideal to store the data. The schema is as shown below.
-![SQL Schema](assets/images/readme/schema.png)
+![SQL Schema](assets/images/readme/schema.png#gh-light-mode-only)
+![SQL Schema](assets/images/readme/schema-dark.png#gh-dark-mode-only)
 Do note that the *password* field will be hashed using [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) before it is stored in the DB. 
 
 ### API Routes for Workers
@@ -45,7 +47,7 @@ Base URL for workers `http://{domain-name}.com/api/workers`.
 * [Expo](https://expo.dev/)
 
 ### Backend
-* [Gin](https://gin-gonic.com/docs/) - Server environment. [GORM](https://gorm.io/)
+* [Gin](https://gin-gonic.com/docs/) - Server environment. [GORM](https://gorm.io/), [CompileDaemon](https://github.com/githubnemo/CompileDaemon), [godotenv](https://github.com/joho/godotenv), [bcrypt](golang.org/x/crypto/bcrypt), [jwt](github.com/golang-jwt/jwt), [uuid](github.com/google/uuid)
 * [MySQL](https://www.mysql.com/)/[PostgresSQL](https://www.postgresql.org/) - Database management
 
 ## Deployment
@@ -61,6 +63,5 @@ Base URL for workers `http://{domain-name}.com/api/workers`.
 | Worker       | [Chi Fu](https://disney.fandom.com/wiki/Chi-Fu)   | chifu@parcelbustle.com    | shangli123@      |
 | Host         | [Yu Shan](https://en.wikipedia.org/wiki/Li_Shang)      | shanyu@parcelbustle.com    | *Not provided* |
 
-## References
 ## References
 1. [Marcus, K. (2024 January 18). Go ORMs in 2024.](https://encore.dev/resources/go-orms)
