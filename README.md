@@ -28,16 +28,66 @@ Given the relationship between entities, a relational DB (in this case MySQL) wo
 ![SQL Schema](assets/images/readme/schema-dark.png#gh-dark-mode-only)
 Do note that the *password* field will be hashed using [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) before it is stored in the DB. 
 
+### API Routes Overview
+![API Routes](assets/images/readme/api-routes.png#gh-light-mode-only)
+![API Routes](assets/images/readme/api-routes-dark.png#gh-dark-mode-only)
+
+The detailed information of each API routes can be found below.
+* [Workers](#api-routes-for-workers)
+* [Parcels](#api-routes-for-parcels)
+* [Customers](#api-routes-for-customers)
+* [Hosts](#api-routes-for-hosts)
+* [Authentication](#api-routes-for-authentication)
+
 ### API Routes for Workers
 Base URL for workers `http://{domain-name}.com/api/workers`.
 | Endpoint | Method | Description | Request Body | Response | Authentication Response |
 |----------|--------|-------------|--------------|----------|-------------------------|
+| `/` | POST | Creates a new worker from request data sent as JSON | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string,  <br>&emsp;"first_name": string, <br>&emsp;"last_name": string, <br>&emsp;"contact": string, <br>&emsp;"profile_image": string <br> } | Status 200 - returns a success message <br>Status 400 - returns an error message <br>Status 500 - returns an error message |   |
 | `/` | GET | Get a list of all workers, returned as JSON |   | Status 200 - returns data of all workers <br>Status 500 - returns an error message |   |
 | `/:workerId` | GET | Get a worker by their ID, returning worker data as JSON |   | Status 200 - returns data of the specific worker <br>Status 404 - returns an error message indicating that the worker is not found <br>Status 500 - returns an error message |   |
-| `/` | POST | Creates a new worker from request data sent as JSON | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string, <br>&emsp;"confirm_password": string, <br>&emsp;"name_first": string, <br>&emsp;"name_last": string, <br>&emsp;"contact": string, <br>&emsp;"profile_image": string <br> } | Status 200 - returns a success message <br>Status 400 - returns an error message indicating any missing required fields <br>Status 500 - returns an error message |   |
-| `/` | PUT | Update data of a specific worker | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string, <br>&emsp;"confirm_password": string, <br>&emsp;"name_first": string, <br>&emsp;"name_last": string, <br>&emsp;"contact": string, <br>&emsp;"profile_image": string <br> } | Status 200 - returns data of the updated worker <br>Status 400 - returns an error message indicating any missing or invalid fields <br>Status 404 - returns an error message indicating that the worker is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message indicating an invalid access token |
-| `/:workerId` | DELETE | Delete a specific worker |  | Status 200 - returns data of the deleted worker <br>Status 404 - returns an error message indicating that the worker is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message indicating an invalid access token |
+| `/:workerId` | PUT | Update data of a specific worker | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string,  <br>&emsp;"first_name": string, <br>&emsp;"last_name": string, <br>&emsp;"contact": string, <br>&emsp;"profile_image": string <br> } | Status 200 - returns data of the updated worker <br>Status 400 - returns an error message <br>Status 404 - returns an error message indicating that the worker is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/:workerId` | DELETE | Delete a specific worker |  | Status 200 - returns data of the deleted worker <br>Status 404 - returns an error message indicating that the worker is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
 
+### API Routes for Parcels
+Base URL for parcels `http://{domain-name}.com/api/parcels`.
+| Endpoint | Method | Description | Request Body | Response | Authentication Response |
+|----------|--------|-------------|--------------|----------|-------------------------|
+| `/` | POST | Creates a new parcel from request data sent as JSON | { <br>&emsp;"status": string, <br>&emsp;"delivery_address": string, <br>&emsp;"return_address": string, <br>&emsp;"deliver_by": datetime, <br>&emsp;"delivered_image": string, <br>&emsp;"payment_type": string, <br>&emsp;"payment_mode": boolean <br> } | Status 200 - returns a success message <br>Status 400 - returns an error message <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/` | GET | Get a list of all parcels, returned as JSON |   | Status 200 - returns data of all parcels <br>Status 500 - returns an error message |   |
+| `/:parcelId` | GET | Get a parcel by its ID, returning parcel data as JSON |   | Status 200 - returns data of the specific parcel <br>Status 404 - returns an error message indicating that the parcel is not found <br>Status 500 - returns an error message |   |
+| `/:parcelId` | PUT | Update data of a specific parcel | { <br>&emsp;"status": string, <br>&emsp;"delivery_address": string, <br>&emsp;"return_address": string, <br>&emsp;"deliver_by": datetime, <br>&emsp;"delivered_image": string, <br>&emsp;"payment_type": string, <br>&emsp;"payment_mode": boolean <br> } | Status 200 - returns data of the updated parcel <br>Status 400 - returns an error message <br>Status 404 - returns an error message indicating that the parcel is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/:parcelId` | DELETE | Delete a specific parcel |  | Status 200 - returns data of the deleted parcel <br>Status 404 - returns an error message indicating that the parcel is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/worker/:workerId` | GET | Get a parcel by worker ID, returning parcel data as JSON |  | Status 200 - returns data of the specific worker <br>Status 404 - returns an error message indicating that the worker is not found <br>Status 500 - returns an error message | |
+| `/customer/:customerId` | GET | Get a parcel by customer ID, returning parcel data as JSON |  | Status 200 - returns data of the specific customer <br>Status 404 - returns an error message indicating that the customer is not found <br>Status 500 - returns an error message | |
+
+### API Routes for Customers
+Base URL for customers `http://{domain-name}.com/api/customers`.
+| Endpoint | Method | Description | Request Body | Response | Authentication Response |
+|----------|--------|-------------|--------------|----------|-------------------------|
+| `/` | POST | Creates a new customer from request data sent as JSON | { <br>&emsp;"first_name": string, <br>&emsp;"last_name": string, <br>&emsp;"contact": string <br> } | Status 200 - returns a success message <br>Status 400 - returns an error message <br>Status 500 - returns an error message |   |
+| `/` | GET | Get a list of all customers, returned as JSON |   | Status 200 - returns data of all customers <br>Status 500 - returns an error message |   |
+| `/:customerId` | GET | Get a customer by their ID, returning customer data as JSON |   | Status 200 - returns data of the specific customer <br>Status 404 - returns an error message indicating that the customer is not found <br>Status 500 - returns an error message |   |
+| `/:customerId` | PUT | Update data of a specific customer | { <br>&emsp;"first_name": string, <br>&emsp;"last_name": string, <br>&emsp;"contact": string <br> } | Status 200 - returns data of the updated customer <br>Status 400 - returns an error message <br>Status 404 - returns an error message indicating that the customer is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/:customerId` | DELETE | Delete a specific customer |  | Status 200 - returns data of the deleted customer <br>Status 404 - returns an error message indicating that the customer is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+
+### API Routes for Hosts
+Base URL for hosts `http://{domain-name}.com/api/hosts`.
+| Endpoint | Method | Description | Request Body | Response | Authentication Response |
+|----------|--------|-------------|--------------|----------|-------------------------|
+| `/` | POST | Creates a new host from request data sent as JSON | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string,  <br>&emsp;"first_name": string, <br>&emsp;"last_name": string, <br> } | Status 200 - returns a success message <br>Status 400 - returns an error message <br>Status 500 - returns an error message |   |
+| `/` | GET | Get a list of all hosts, returned as JSON |   | Status 200 - returns data of all hosts <br>Status 500 - returns an error message |   |
+| `/:hostId` | GET | Get a host by their ID, returning host data as JSON |   | Status 200 - returns data of the specific host <br>Status 404 - returns an error message indicating that the host is not found <br>Status 500 - returns an error message |   |
+| `/:hostId` | PUT | Update data of a specific host | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string,  <br>&emsp;"first_name": string, <br>&emsp;"last_name": string, <br> } | Status 200 - returns data of the updated host <br>Status 400 - returns an error message <br>Status 404 - returns an error message indicating that the host is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/:hostId` | DELETE | Delete a specific host |  | Status 200 - returns data of the deleted host <br>Status 404 - returns an error message indicating that the host is not found <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+
+### API Routes for Authentication
+Base URL for hosts `http://{domain-name}.com/api/auth`.
+| Endpoint | Method | Description | Request Body | Response | Authentication Response |
+|----------|--------|-------------|--------------|----------|-------------------------|
+| `/login` | POST | Validate credentials and generate authorisation cookies | { <br>&emsp;"username": string, <br>&emsp;"email": string, <br>&emsp;"password": string <br> } | Status 200 - returns a success message <br>Status 400 - returns an error message <br>Status 401 - returns an error message for wrong credentials <br>Status 500 - returns an error message |   |
+| `/refresh` | POST | Refresh expired access token with a refresh token |  | Status 200 - returns a new access token <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
+| `/refresh` | POST | Refresh expired access token with a refresh token |  | Status 204 - no response returned <br>Status 500 - returns an error message | Status 401 - returns an error message requiring login <br>Status 403 - returns an error message for invalid access token |
 
 ## Functionalities
 
@@ -61,7 +111,9 @@ Base URL for workers `http://{domain-name}.com/api/workers`.
 | Worker       | [Mulan Hua](https://disney.fandom.com/wiki/Fa_Mulan) | mulanhua@parcelbustle.com    | mulanhua123@      |
 | Worker       | [Shang Li](https://disney.fandom.com/wiki/Li_Shang)   | shangli@parcelbustle.com    | shangli123@      |
 | Worker       | [Chi Fu](https://disney.fandom.com/wiki/Chi-Fu)   | chifu@parcelbustle.com    | shangli123@      |
-| Host         | [Yu Shan](https://en.wikipedia.org/wiki/Li_Shang)      | shanyu@parcelbustle.com    | *Not provided* |
+| Host         | Host 1      | host1@parcelbustle.com    | *Not provided* |
+| Host         | Host 2      | host2@parcelbustle.com    | *Not provided* |
+| Host         | Host 3      | host3@parcelbustle.com    | *Not provided* |
 
 ## References
 1. [Marcus, K. (2024 January 18). Go ORMs in 2024.](https://encore.dev/resources/go-orms)
