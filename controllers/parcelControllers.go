@@ -13,6 +13,8 @@ import (
 func CreateParcel(c *gin.Context) {
 	var body models.ParcelReqBody
 
+	// parse JSON data in req body and binds it to the ParcelReqBody struct
+	// similar to req.body with app.use(express.json())
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -20,7 +22,7 @@ func CreateParcel(c *gin.Context) {
 		return
 	}
 
-	parcel, err := services.CreateParcel(body)
+	parcel, err := services.CreateParcel(&body)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": err.Error(),

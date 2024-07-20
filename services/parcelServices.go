@@ -7,7 +7,7 @@ import (
 	"github.com/f-lsq/parcel-bustle-backend/repositories"
 )
 
-func CreateParcel(body models.ParcelReqBody) (*models.Parcel, error) {
+func CreateParcel(body *models.ParcelReqBody) (*models.Parcel, error) {
 	var deliverByDate time.Time
 	var err error
 

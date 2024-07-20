@@ -26,6 +26,7 @@ This app is targeted for last-mile delivery services providers, specialising in 
 Given the relationship between entities, a relational DB (in this case MySQL) would be more ideal to store the data. The schema is as shown below.
 ![SQL Schema](assets/images/readme/schema.png#gh-light-mode-only)
 ![SQL Schema](assets/images/readme/schema-dark.png#gh-dark-mode-only)
+
 Do note that the *password* field will be hashed using [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) before it is stored in the DB. 
 
 ### API Routes Overview

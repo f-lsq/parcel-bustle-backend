@@ -15,6 +15,7 @@ func main() {
 	router := gin.Default() //initialises a new Gin router
 
 	routes.Parcel(router)
+	routes.Customer(router)
 
 	router.Run()
 }

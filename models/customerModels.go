@@ -8,3 +8,11 @@ type Customer struct {
 	LastName  string
 	Contact   string `gorm:"unique;not null"`
 }
+
+// 'CreatedAt' and 'UpdatedAt' automatically managed by GORM
+
+type CustomerReqBody struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Contact   string `json:"contact"`
+}
