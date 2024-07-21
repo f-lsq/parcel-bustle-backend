@@ -29,6 +29,15 @@ Given the relationship between entities, a relational DB (in this case MySQL) wo
 
 Do note that the *password* field will be hashed using [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) before it is stored in the DB. 
 
+### System Architecture
+![System Architecture](assets/images/readme/system-architecture.png#gh-light-mode-only)
+![System Architecture](assets/images/readme/system-architecture-dark.png#gh-dark-mode-only)
+
+An Object Relational Mapper (ORM) is used due to its
+1. **Flexibility**: Isolates the code from the database queries, making it easier to amend the codes if the database technology were to be changed (e.g. from MySQL to PostgresSQL)
+2. **Simplicity**: Performs data queries and manipulation using Golang rather than SQL language 
+3. **Security**: Prevents injection attack by using the [`database/sql`](https://gorm.io/docs/security.html) argument placeholders to contruct the SQL statements
+
 ### API Routes Overview
 ![API Routes](assets/images/readme/api-routes.png#gh-light-mode-only)
 ![API Routes](assets/images/readme/api-routes-dark.png#gh-dark-mode-only)

@@ -85,7 +85,7 @@ func UpdateParcel(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	parcel, err := services.UpdateParcelByID(id, body)
+	parcel, err := services.UpdateParcelByID(id, &body)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(404, gin.H{

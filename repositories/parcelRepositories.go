@@ -18,7 +18,6 @@ func GetAllParcels() ([]models.Parcel, error) {
 		return nil, result.Error
 	}
 	return parcels, nil
-
 }
 
 func GetParcelByID(id string) (models.Parcel, error) {

@@ -21,3 +21,33 @@ func CreateCustomer(body *models.CustomerReqBody) (*models.Customer, error) {
 
 	return customer, nil
 }
+
+func GetAllCustomers() ([]models.Customer, error) {
+	return repositories.GetAllCustomers()
+}
+
+func GetCustomerByID(id string) (models.Customer, error) {
+	return repositories.GetCustomerByID(id)
+}
+
+func UpdateCustomerByID(id string, body *models.CustomerReqBody) (models.Customer, error) {
+	customer, err := GetCustomerByID(id)
+	if err != nil {
+		return models.Customer{}, nil
+	}
+
+	customer.FirstName = body.FirstName
+	customer.LastName = body.LastName
+	customer.Contact = body.Contact
+
+	errUpd := repositories.UpdateCustomerByID(&customer)
+	if errUpd != nil {
+		return models.Customer{}, errUpd
+	}
+
+	return customer, nil
+}
+
+func DeleteCustomer(id string) error {
+	return repositories.DeleteCustomer(id)
+}

@@ -47,7 +47,7 @@ func GetParcelByID(id string) (models.Parcel, error) {
 	return repositories.GetParcelByID(id)
 }
 
-func UpdateParcelByID(id string, body models.ParcelReqBody) (models.Parcel, error) {
+func UpdateParcelByID(id string, body *models.ParcelReqBody) (models.Parcel, error) {
 	parcel, err := GetParcelByID(id)
 	if err != nil {
 		return models.Parcel{}, err
