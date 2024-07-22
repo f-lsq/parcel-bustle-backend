@@ -10,8 +10,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateCustomer(c *gin.Context) {
-	var body models.CustomerReqBody
+func CreateWorker(c *gin.Context) {
+	var body models.WorkerReqBody
 
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, gin.H{
@@ -20,7 +20,7 @@ func CreateCustomer(c *gin.Context) {
 		return
 	}
 
-	customer, err := services.CreateCustomer(&body)
+	worker, err := services.CreateWorker(&body)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": err.Error(),
@@ -28,30 +28,30 @@ func CreateCustomer(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"message": "Customer created successfully",
-		"data":    customer,
+		"message": "Worker created successfully",
+		"data":    worker,
 	})
 }
 
-func GetCustomers(c *gin.Context) {
-	customers, err := services.GetAllCustomers()
+func GetWorkers(c *gin.Context) {
+	workers, err := services.GetAllWorkers()
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": err.Error(),
 		})
 	}
 	c.JSON(200, gin.H{
-		"message": "All customers retrieved successfully",
-		"data":    customers,
+		"message": "All workers retrieved successfully",
+		"data":    workers,
 	})
 }
 
-func GetCustomerByID(c *gin.Context) {
+func GetWorkerByID(c *gin.Context) {
 	id := c.Param("id")
-	customer, err := services.GetCustomerByID(id)
+	worker, err := services.GetWorkerByID(id)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(404, gin.H{
-			"error": fmt.Sprintf("No customer of ID %s was found", id),
+			"error": fmt.Sprintf("No worker of ID %s was found", id),
 		})
 		return
 	}
@@ -64,13 +64,13 @@ func GetCustomerByID(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"message": "Customer retrieved successfully",
-		"data":    customer,
+		"message": "Worker retrieved successfully",
+		"data":    worker,
 	})
 }
 
-func UpdateCustomer(c *gin.Context) {
-	var body models.CustomerReqBody
+func UpdateWorker(c *gin.Context) {
+	var body models.WorkerReqBody
 
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, gin.H{
@@ -80,11 +80,11 @@ func UpdateCustomer(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	customer, err := services.UpdateCustomerByID(id, &body)
+	worker, err := services.UpdateWorkerByID(id, &body)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(404, gin.H{
-			"error": fmt.Sprintf("No customer of ID %s was found", id),
+			"error": fmt.Sprintf("No worker of ID %s was found", id),
 		})
 		return
 	}
@@ -97,18 +97,18 @@ func UpdateCustomer(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"message": "Customer updated successfully",
-		"data":    customer,
+		"message": "Worker updated successfully",
+		"data":    worker,
 	})
 }
 
-func DeleteCustomer(c *gin.Context) {
+func DeleteWorker(c *gin.Context) {
 	id := c.Param("id")
 
-	customer, err := services.GetCustomerByID(id)
+	worker, err := services.GetWorkerByID(id)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(404, gin.H{
-			"error": fmt.Sprintf("No customer of ID %s was found", id),
+			"error": fmt.Sprintf("No worker of ID %s was found", id),
 		})
 		return
 	}
@@ -120,14 +120,14 @@ func DeleteCustomer(c *gin.Context) {
 		return
 	}
 
-	if errDel := services.DeleteCustomer(id); errDel != nil {
+	if errDel := services.DeleteWorker(id); errDel != nil {
 		c.JSON(500, gin.H{
 			"error": errDel.Error(),
 		})
 		return
 	}
 	c.JSON(200, gin.H{
-		"message": "Customer deleted",
-		"data":    customer,
+		"message": "Worker deleted",
+		"data":    worker,
 	})
 }

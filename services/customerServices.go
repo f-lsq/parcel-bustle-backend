@@ -33,7 +33,7 @@ func GetCustomerByID(id string) (models.Customer, error) {
 func UpdateCustomerByID(id string, body *models.CustomerReqBody) (models.Customer, error) {
 	customer, err := GetCustomerByID(id)
 	if err != nil {
-		return models.Customer{}, nil
+		return models.Customer{}, err
 	}
 
 	customer.FirstName = body.FirstName

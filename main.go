@@ -16,6 +16,8 @@ func main() {
 
 	routes.Parcel(router)
 	routes.Customer(router)
+	routes.Host(router)
+	routes.Worker(router)
 
 	router.Run()
 }
