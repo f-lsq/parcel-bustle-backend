@@ -6,7 +6,8 @@ type Customer struct {
 	gorm.Model
 	FirstName string `gorm:"not null"`
 	LastName  string
-	Contact   string `gorm:"unique;not null"`
+	Contact   string   `gorm:"unique;not null"`
+	Parcels   []Parcel `gorm:"foreignKey:CustomerID"`
 }
 
 // 'CreatedAt' and 'UpdatedAt' automatically managed by GORM

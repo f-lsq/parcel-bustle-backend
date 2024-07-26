@@ -13,8 +13,9 @@ type Worker struct {
 	LastName     string `gorm:"not null"`
 	Contact      string `gorm:"not null"`
 	ProfileImage string
-	Verified     bool `gorm:"default:false"`
-	Approved     bool `gorm:"default:false"`
+	Verified     bool     `gorm:"default:false"`
+	Approved     bool     `gorm:"default:false"`
+	Parcels      []Parcel `gorm:"foreignKey:WorkerID"`
 }
 
 // 'CreatedAt' and 'UpdatedAt' automatically managed by GORM

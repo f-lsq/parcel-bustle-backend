@@ -29,11 +29,11 @@ func main() {
 	}
 
 	seedParcels := []models.Parcel{
-		{Status: "Uncollected", DeliveryAddress: "Aljunied Industrial Complex 623 Aljunied Road #05-03", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Cash", PaymentMade: false},
-		{Status: "Collected", DeliveryAddress: "1 Boon Leat Terrace, #07-02, Harbourside Building 1", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Card", PaymentMade: true},
-		{Status: "Out for delivery", DeliveryAddress: "Lippo Centre 78 Shenton Way #13-03", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "PayNow", PaymentMade: false},
-		{Status: "Delivered", DeliveryAddress: "HDB Yishun 106 Yishun Ring Road #01-197", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Cash", PaymentMade: true},
-		{Status: "Undelivered", DeliveryAddress: "3017 Bedok Nth St 5 #05-02", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Card", PaymentMade: false},
+		{WorkerID: 1, CustomerID: 1, Status: "Uncollected", DeliveryAddress: "Aljunied Industrial Complex 623 Aljunied Road #05-03", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Cash", PaymentMade: false},
+		{WorkerID: 1, CustomerID: 2, Status: "Collected", DeliveryAddress: "1 Boon Leat Terrace, #07-02, Harbourside Building 1", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Card", PaymentMade: true},
+		{WorkerID: 2, CustomerID: 2, Status: "Out for delivery", DeliveryAddress: "Lippo Centre 78 Shenton Way #13-03", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "PayNow", PaymentMade: false},
+		{WorkerID: 2, CustomerID: 3, Status: "Delivered", DeliveryAddress: "HDB Yishun 106 Yishun Ring Road #01-197", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Cash", PaymentMade: true},
+		{WorkerID: 2, CustomerID: 4, Status: "Undelivered", DeliveryAddress: "3017 Bedok Nth St 5 #05-02", ReturnAddress: "#03-01 Cogent Logistics Hub 1 Buroh Crescent #6M-01, 627545", DeliverBy: time.Now().AddDate(0, 0, 7), PaymentType: "Card", PaymentMade: false},
 	}
 
 	seedCustomers := []models.Customer{
@@ -54,12 +54,12 @@ func main() {
 		config.DB.Create(&worker)
 	}
 
-	for _, parcel := range seedParcels {
-		config.DB.Create(&parcel)
-	}
-
 	for _, customer := range seedCustomers {
 		config.DB.Create(&customer)
+	}
+
+	for _, parcel := range seedParcels {
+		config.DB.Create(&parcel)
 	}
 
 	for _, host := range seedHosts {

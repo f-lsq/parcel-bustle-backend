@@ -15,6 +15,10 @@ type Parcel struct {
 	DeliveredImage  string
 	PaymentType     string `gorm:"not null"`
 	PaymentMade     bool   `gorm:"not null"`
+	WorkerID        uint
+	CustomerID      uint
+	Worker          Worker   `gorm:"foreignKey:WorkerID"`
+	Customer        Customer `gorm:"foreignKey:CustomerID"`
 }
 
 // 'CreatedAt' and 'UpdatedAt' automatically managed by GORM
